@@ -9,36 +9,25 @@ from polynomial import *
 import pylab as py
 
 
-def plot(dots: list[float], newton: Polynomial, hermite: Polynomial) -> None:
+def plot(dots: list[float], polynomials: list[Polynomial]) -> None:
     x, y = [p[0] for p in dots], [p[1] for p in dots]
     a, b = min(x), max(x)
     x_arg = np.linspace(a, b)
 
     plt.clf()
 
-    plt.subplot(121)
-    plt.title("Newton")
-    plt.xlabel("x")
-    plt.ylabel("y")
-    plt.grid(which='minor', color='k', linestyle=':')
-    plt.grid(which='major', color='k')
-    plt.minorticks_on()
+    for i in range(len(polynomials)):
+        plt.subplot(1, len(polynomials), i + 1)
+        plt.title(type(polynomials[i]).__name__)
+        plt.xlabel("x")
+        plt.ylabel("y")
+        plt.grid(which='minor', color='k', linestyle=':')
+        plt.grid(which='major', color='k')
+        plt.minorticks_on()
 
-    plt.plot(x, y, "xk")
+        plt.plot(x, y, "xk")
 
-    plt.plot(x_arg, [newton(arg) for arg in x_arg])
-
-    plt.subplot(122)
-    plt.title("Hermite")
-    plt.xlabel("x")
-    plt.ylabel("y")
-    plt.grid(which='minor', color='k', linestyle=':')
-    plt.grid(which='major', color='k')
-    plt.minorticks_on()
-
-    plt.plot(x, y, "xk")
-
-    plt.plot(x_arg, [hermite(arg) for arg in x_arg])
+        plt.plot(x_arg, [polynomials[i](arg) for arg in x_arg])
 
     plt.show()
 
@@ -67,4 +56,4 @@ if __name__ == "__main__":
     print(
         "Root found by inverted interpolation method is {: <5.6g}".format(root))
 
-    plot(dots, newton, hermite)
+    plot(dots, [newton, hermite])
