@@ -4,14 +4,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from utils import *
-from structs import *
 from polynomial import *
 
 import pylab as py
 
 
-def plot(dots: list[Point], newton: Polynomial, hermite: Polynomial) -> None:
-    x, y = [p.x for p in dots], [p.y for p in dots]
+def plot(dots: list[float], newton: Polynomial, hermite: Polynomial) -> None:
+    x, y = [p[0] for p in dots], [p[1] for p in dots]
     a, b = min(x), max(x)
     x_arg = np.linspace(a, b)
 
@@ -62,7 +61,7 @@ if __name__ == "__main__":
 
     print("Hermite value in {: <5.6g} is {: <5.6g}".format(x, hermite(x)))
 
-    inv_dots = sorted([Point(p.y, p.x) for p in dots], key=lambda p: p.y)
+    inv_dots = [[p[1], p[0]] for p in dots]
     root = NewtonPolynomial.build(inv_dots, 0.0, deg)(0.0)
 
     print(

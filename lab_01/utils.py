@@ -1,25 +1,14 @@
-from structs import Point
-
-
-def read_dots(fname: str) -> list[Point]:
+def read_dots(fname: str) -> list[list[float]]:
     dots = []
 
     with open(fname) as fin:
         for line in fin.readlines():
-            coords = list(map(float, line.split()))
+            dots += [list(map(float, line.split()))]
 
-            dots.append(
-                Point(
-                    coords[0],
-                    coords[1],
-                    coords[2:]
-                )
-            )
-
-    return sorted(dots, key=lambda p: p.y)
+    return sorted(dots, key=lambda p: p[1])
 
 
-def print_dots(dots: list[Point]) -> None:
+def print_dots(dots: list[float]) -> None:
     for d in dots:
         print(d)
 

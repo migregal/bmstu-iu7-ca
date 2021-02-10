@@ -1,5 +1,4 @@
 from __future__ import annotations
-from structs import Point
 from math import prod
 
 
@@ -16,8 +15,8 @@ class Polynomial(object):
 class NewtonPolynomial(Polynomial):
 
     @staticmethod
-    def build(points: list[Point], arg: float, degree: int) -> NewtonPolynomial:
-        table = NewtonPolynomial._make_table(points, arg, degree)
+    def build(points: list[list[float]], arg: float, n: int) -> NewtonPolynomial:
+        table = NewtonPolynomial._make_table(points, arg, n)
 
         return NewtonPolynomial(
             [lambda x:table[1][0]] +
@@ -30,14 +29,13 @@ class NewtonPolynomial(Polynomial):
         return lambda x: va * prod(map(lambda a: (x - a), vl))
 
     @staticmethod
-    def _make_table(points: list[Point], arg: float, degree: int) -> list[list[float]]:
-        base = sorted(sorted(points, key=lambda p: abs(p.x - arg))[:degree+1])
+    def _make_table(points: list[list[float]], arg: float, n: int) -> list[list[float]]:
+        base = sorted(sorted(points, key=lambda p: abs(p[0] - arg))[:n+1])
 
-        t = [[None for i in range(len(base))] for j in range(degree + 2)]
+        t = [[None for i in range(len(base))] for j in range(n + 2)]
 
         for i in range(len(t[0])):
-            t[0][i] = base[i].x
-            t[1][i] = base[i].y
+            t[0][i], t[1][i] = base[i][0], base[i][1]
 
         for i in range(2, len(t)):
             for j in range(len(base) - i + 1):
@@ -49,9 +47,9 @@ class NewtonPolynomial(Polynomial):
 
 class HermitePolynomial(NewtonPolynomial):
 
-    @staticmethod
-    def build(points: list[Point], arg: float, degree: int) -> HermitePolynomial:
-        table = HermitePolynomial._make_table(points, arg, degree)
+    @ staticmethod
+    def build(points: list[list[float]], arg: float, n: int) -> HermitePolynomial:
+        table = HermitePolynomial._make_table(points, arg, n)
 
         return HermitePolynomial(
             [lambda x:table[1][0]] +
@@ -59,23 +57,21 @@ class HermitePolynomial(NewtonPolynomial):
              for i in range(2, len(table))]
         )
 
-    @staticmethod
-    def _make_table(points: list[Point], arg: float, degree: int) -> list[list[float]]:
+    @ staticmethod
+    def _make_table(points: list[list[float]], arg: float, n: int) -> list[list[float]]:
         base = []
 
-        for p in sorted(points, key=lambda p: abs(p.x - arg)):
-            base += [Point(p.x, p.y, p.dy[:j]) for j in range(len(p.dy) + 1)]
+        for p in sorted(points, key=lambda p: abs(p[0] - arg)):
+            base += [p[:j] for j in range(2, len(p) + 1)]
 
-        base = sorted(base[:degree + 1], key=lambda p: (p.x, -len(p.dy)))
+        base = sorted(base[:n + 1], key=lambda p: (p[0], -len(p)))
 
-        t = [[None for i in range(len(base))] for j in range(degree + 2)]
+        t = [[None for i in range(len(base))] for j in range(n + 2)]
 
         for i in range(len(base)):
             p = base[i]
-            t[0][i], t[1][i] = p.x, p.y
-
-            for j in range(2, len(p.dy)+2):
-                t[j][i] = p.dy[j - 2]
+            for j in range(len(p)):
+                t[j][i] = p[j]
 
         for i in range(2, len(t)):
             for j in range(len(base) - i + 1):
