@@ -78,9 +78,7 @@ class HermitePolynomial(NewtonPolynomial):
                 if t[i][j]:
                     continue
 
-                dx = t[0][j] - t[0][j + i - 2]
-                if dx == 0:
-                    dx = t[0][j] - t[0][j + i - 1]
+                dx = t[0][j] - t[0][j + i - 1]
 
                 t[i][j] = (t[i - 1][j] - t[i - 1][j + 1]) / dx
 
