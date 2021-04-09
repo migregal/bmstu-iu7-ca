@@ -52,6 +52,9 @@ class SLAE(object):
 
 
 class Approx(object):
+    def __init__(self):
+        self.coeffs = []
+
     def get_coeffs(self, mat: list[list[float]]) -> Approx:
         self.coeffs = [mat[i][len(mat)] for i in range(len(mat))]
 
