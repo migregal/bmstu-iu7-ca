@@ -14,7 +14,7 @@ def read_dots(fname: str) -> list[Dot]:
 def print_dots(dots: list[Dot]) -> None:
     print("{:8} {:8} {:8}".format("X", "Y", "Weight"))
     for i in dots:
-        print("{:8} {:8} {:8}".format(i.x, i.y, i.weight))
+        print("{:<8} {:<8} {:<8}".format(i.x, i.y, i.weight))
 
 def read_polynom_degree() -> int:
     return int(input())
