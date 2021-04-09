@@ -9,6 +9,8 @@ class Dot(object):
     weight: float
 
     def __init__(self, _x: float, _y: float, _w: float):
+        super.__init__()
+
         self.x, self.y, self.weight = _x, _y, _w
 
 
@@ -25,7 +27,9 @@ class SLAE(object):
                 slae_coeffs = 0.0
                 expanded_coeff = 0.0
                 for k in range(len(ds)):
-                    slae_coeffs += ds[k].weight * (ds[k].x ** i) * (ds[k].x ** j)
+                    slae_coeffs += ds[k].weight * \
+                                   (ds[k].x ** i) * \
+                                   (ds[k].x ** j)
                     expanded_coeff += ds[k].weight * ds[k].y * (ds[k].x ** i)
 
                 self.mat[i][j] = slae_coeffs
@@ -53,6 +57,8 @@ class SLAE(object):
 
 class Approx(object):
     def __init__(self):
+        super.__init__()
+
         self.coeffs = []
 
     def get_coeffs(self, mat: list[list[float]]) -> Approx:
