@@ -8,8 +8,6 @@ from meansquare import *
 
 def plot(dots: list[Dot], approx: list[Dot]) -> None:
     x, y = [p.x for p in dots], [p.y for p in dots]
-    a, b = min(x), max(x)
-    x_arg = np.linspace(a, b)
 
     plt.clf()
 
@@ -25,8 +23,8 @@ def plot(dots: list[Dot], approx: list[Dot]) -> None:
 
     plt.show()
 
-def main():
 
+def main():
     dots = read_dots(argv[1])
 
     print("Table loaded from file\n")
@@ -35,7 +33,16 @@ def main():
     print("\nEnter polynom degree")
     deg = read_polynom_degree()
 
-    slae = SLAE().build(dots, deg).solve()
+    slae = SLAE().build(dots, deg)
+
+    print("\nSLAE to solve\n")
+    print_matrix(slae.mat)
+
+    slae = slae.solve()
+
+    print("\nSolved SLAE\n")
+    print_matrix(slae)
+    print()
 
     plot(dots, Approx().get_coeffs(slae).build(dots))
 
