@@ -1,6 +1,7 @@
 from sys import argv
 
 from utils import *
+from meansquare import *
 
 def main():
 
@@ -11,6 +12,13 @@ def main():
 
     print("\nEnter polynom degree")
     deg = read_polynom_degree()
+
+    slae = SLAE().build(dots, deg).solve()
+
+    for i in slae:
+        print(i)
+
+    res = Approx().get_coeffs(slae).build(dots)
 
 
 if __name__ == "__main__":
