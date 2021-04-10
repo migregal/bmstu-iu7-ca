@@ -65,7 +65,7 @@ class Approx(object):
     def build(self, ds: list[Dot]) -> list[Dot]:
         dots = []
 
-        for i in np.arange(ds[0].x, ds[-1].x, 0.1):
+        for i in np.arange(ds[0].x, ds[-1].x + 0.1, 0.1):
             d = Dot(i, 0, 0)
 
             for j in range(len(self.coeffs)):
