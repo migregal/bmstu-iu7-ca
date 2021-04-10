@@ -6,7 +6,7 @@ from utils import *
 from meansquare import *
 
 
-def plot(dots: list[Dot], approx: list[list[Dot]]) -> None:
+def plot(dots: list[Dot], approx: list[tuple[int, list[Dot]]]) -> None:
     x, y = [p.x for p in dots], [p.y for p in dots]
 
     plt.clf()
@@ -20,8 +20,10 @@ def plot(dots: list[Dot], approx: list[list[Dot]]) -> None:
     plt.plot(x, y, "xk")
 
     for a in approx:
-        plt.plot([p.x for p in a], [p.y for p in a])
+        plt.plot([p.x for p in a[1]], [p.y for p in a[1]],
+                 label="p=" + str(a[0]))
 
+    plt.legend()
     plt.show()
 
 
@@ -32,20 +34,25 @@ def main():
     print_dots(dots)
 
     print("\nEnter polynom degree")
-    deg = read_polynom_degree()
 
-    slae = SLAE().build(dots, deg)
+    # deg = read_polynom_degree()
 
-    print("\nSLAE to solve\n")
-    print_matrix(slae.mat)
+    approxs = []
+    for deg in [1, 2, 4, 6, 8]:
+        slae = SLAE().build(dots, deg)
 
-    slae = slae.solve()
+        print("\nSLAE to solve\n")
+        print_matrix(slae.mat)
 
-    print("\nSolved SLAE\n")
-    print_matrix(slae)
-    print()
+        slae = slae.solve()
 
-    plot(dots, [Approx().get_coeffs(slae).build(dots)])
+        print("\nSolved SLAE\n")
+        print_matrix(slae)
+        print()
+
+        approxs.append((deg, Approx().get_coeffs(slae).build(dots)))
+
+    plot(dots, approxs)
 
 
 def cmp_main():
@@ -77,9 +84,9 @@ def cmp_main():
 
     approx2 = Approx().get_coeffs(SLAE().build(dots2, deg).solve()).build(dots2)
 
-    plot(dots1, [approx1, approx2])
+    plot(dots1, [(deg, approx1), (deg, approx2)])
 
 
 if __name__ == "__main__":
-    # main()
-    cmp_main()
+    main()
+    # cmp_main()
