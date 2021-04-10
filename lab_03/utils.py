@@ -17,5 +17,5 @@ def print_dots(dots: list[Dot]) -> None:
         print("{:<8.2f} {:<8.2f}".format(i.x, i.y))
 
 
-def read_x() -> int:
-    return int(input())
+def read_x() -> float:
+    return float(input())

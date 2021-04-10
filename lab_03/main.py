@@ -1,5 +1,6 @@
 from sys import argv
 
+from spline import Spline
 from utils import *
 
 
@@ -11,6 +12,10 @@ def main() -> None:
 
     print("\nEnter X value: ")
     x = read_x()
+
+    res = Spline(dots).solve(x)
+
+    print("\nValue in {:<5.2f} is {:<5.4f}\n".format(res.x, res.y))
 
 
 if __name__ == "__main__":
