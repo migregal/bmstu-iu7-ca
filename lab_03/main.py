@@ -1,5 +1,6 @@
 from sys import argv
 
+from polynomial import NewtonPolynomial
 from spline import Spline
 from utils import *
 
@@ -14,8 +15,9 @@ def main() -> None:
     x = read_x()
 
     res = Spline(dots).solve(x)
+    poly = Dot(x, NewtonPolynomial.build([[d.x, d.y] for d in dots], x, 3)(x))
 
-    print("\nValue in {:<5.2f} is {:<5.4f}\n".format(res.x, res.y))
+    print_res(res, poly)
 
 
 if __name__ == "__main__":

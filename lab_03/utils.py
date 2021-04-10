@@ -16,6 +16,10 @@ def print_dots(dots: list[Dot]) -> None:
     for i in dots:
         print("{:<8.2f} {:<8.2f}".format(i.x, i.y))
 
+def print_res(spline: Dot, polyn: Dot) -> None:
+    print("        {:^8} {:^8}".format("X", "Y"))
+    print("Spline  {:^8.4f} {:^8.4f}".format(spline.x, spline.y))
+    print("Newton  {:^8.4f} {:^8.4f}".format(polyn.x, polyn.y))
 
 def read_x() -> float:
     return float(input())
